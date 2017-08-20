@@ -1,0 +1,62 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="panel mb25">
+        <div class="panel-heading border mb15">
+            <h3>Transaction History</h3>
+        </div>
+        {% for message in messages %}
+            <div class="col-xs-12">
+                <div class='alert alert-success alert-dismissable' id="msg-add-service">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                    <strong>{{ message|capfirst }}</strong>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="panel-body">
+            <div class="table-responsive">
+                <form class="form-horizontal" role="form" method="get">
+                    {% csrf_token %}
+                    <table class="table table-bordered table-striped mb0" id="tbl_shop_list">
+                        <thead>
+                        <tr>
+                            <th id="id">ID</th>
+                            <th id="bill_amount">Bill Amount</th>
+                            <th id="customer_name">Customer Name</th>
+                            <th id="discount">Discount Amount of Customer</th>
+                            <th id="broker_name">Broker Name </th>
+                            <th id="bonus">Bonus Amount of Broker</th>
+                            <th id="transaction_time">Transaction Time</th>
+                            <th id="status">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody id="history_table_body">
+                        {% for t in transactions %}
+                            <tr>
+                                <td class="col-sm-1">{{ t.id|default_if_none:'' }}</td>
+                                <td class="col-sm-3">{{ t.bill_amount|default_if_none:'' }}</td>
+                                <td class="col-sm-3">{{ t.customer_id|default_if_none:'' }}</td>
+                                <td class="col-sm-2">{{ t.discount|default_if_none:'' }}</td>
+                                <td class="col-sm-2">{{ t.broker_id|default_if_none:'' }}</td>
+                                <td class="col-sm-2">{{ t.bonus|default_if_none:'' }}</td>
+                                <td class="col-sm-2">{{ t.transaction_time|default_if_none:'' }}</td>
+                                <td class="col-sm-2">{{ t.status|default_if_none:'' }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="loader" style="display:none" id="loader-indicator"></div>
+        <div class="col-xs-12" id="search-result-notification" style="display:none">
+            <div class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                Something wrong happened.
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="panel mb30">
+    <div class="panel-heading border">
+        <h3>Create/Link Wallet</h3>
+    </div>
+    <div class="form-group">
+        <button onclick="hideShow('linkWallet')" class="btn btn-success">Link your wallet</button>
+        <div class="panel-body" id="linkWallet" hidden>
+            <div class="row no-margin">
+                <div class="col-lg-12">
+                    <form id="submit-form" class="form-horizontal" role="form" method="post"
+                          action="{% url 'wallet:link' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Username</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-rounded" name="username"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Password</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control input-rounded" name="password"/>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            <input class="btn btn-dan text-left mb15" type="submit"
+                                   value="Login" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button onclick="hideShow('createWallet')" class="btn btn-success">Create new wallet</button>
+        <div class="panel-body" id="createWallet" hidden>
+            <div class="row no-margin">
+                <div class="col-lg-12">
+                    <form id="submit-form" class="form-horizontal" role="form" method="post"
+                          action="{% url 'wallet:create' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Thai ID</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-rounded" name="thai_id"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">First name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-rounded" name="first_name"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Last name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-rounded" name="last_name"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Postal Code</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-rounded" name="postal_code"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Mobile Number</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-rounded" name="mobile_number"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Addresss</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-rounded" name="address"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control input-rounded" name="email"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Occupation</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-rounded" name="occupation"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Password</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control input-rounded" name="password"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Re-enter Password</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control input-rounded" name="password"/>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            <input class="btn btn-danger text-left mb15" type="submit"
+                                   value="Create" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function hideShow(element) {
+    var x = document.getElementById(element);
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+</script>
+
+{% endblock %}

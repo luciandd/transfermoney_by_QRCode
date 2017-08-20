@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="panel mb30">
+    <div class="panel-heading border">
+        <h3>Order History</h3>
+    </div>
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <div class="col-xs-12">
+            <div class="alert alert-danger alert-dismissable" id="msg-role-delete">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                <strong>{{ message }}</strong>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    <div class="panel-body">
+        <div class="table-responsive" id=system_user_table>
+            <table id="order_history" class="table table-bordered table-striped mb0">
+                <thead>
+                <tr>
+                    <th class="col-sm-1 text-center" id="id">Payee ID</th>
+                    <th class="col-sm-1 text-center" id="order_id">Order ID</th>
+                    <th class="col-sm-1 text-center" id="ext_transaction_id">External Transaction ID</th>
+                    <th class="col-sm-2 text-center" id="date">Date</th>
+                    <th class="col-sm-2 text-center" id="amount">Amount</th>
+                    <th class="col-sm-1 text-center" id="status">Status</th>
+                    <th class="col-sm-1 text-center" id="state">State</th>
+                    <th class="col-sm-3 text-center" id="action">Action</th>
+                </tr>
+                </thead>
+                <tbody id="table_body">
+                {% for order in data %}
+                    {% if user_id == order.payer_user.id or user_id == order.payee_user.id or user_id == order.initiator_user.id %}
+                    <tr>
+                        <td class="col-sm-1">{{ order.payee_user.id|default_if_none:'' }}</td>
+                        <td class="col-sm-1">{{ order.order_id|default_if_none:'' }}</td>
+                        <td class="col-sm-1">{{ order.ext_transaction_id|default_if_none:'' }}</td>
+                        <td class="col-sm-2">{{ order.created_timestamp|default_if_none:'' }}</td>
+                        <td class="col-sm-2">{{ order.amount|default_if_none:'' }}</td>
+                        <td class="col-sm-1">{{ order.status|default_if_none:'' }}</td>
+                        <td class="col-sm-1">{{ order.state|default_if_none:'' }}</td>
+                        <td class="col-sm-3">
+                            <form class="form-horizontal" role="form" method="post"
+                                  {% if order.status == 0 %} visible {% else %} hidden {% endif %}
+                                  action="{% url 'web:confirm_order' order.order_id %}">
+                                {% csrf_token %}
+                                <div class="btn-group">
+                                    <a href="{% url 'web:cancel_movement_balance' order.order_id %}">
+                                    <input id="client-btn-create-{{order.order_id}}"
+                                            class="btn btn-outline btn-primary btn-xs"
+                                            type="button" value="details"/>
+                                    </a>
+                                    <button id="confirm_payment_{{ order.order_id }}"
+                                            class="btn btn-outline btn-success btn-xs {% if user_id == order.payer_user.id %} '' {% else %} hidden {% endif %}"
+                                            type="submit">
+                                        <span>Confirm</span>
+                                    </button>
+                                </div>
+                            </form>
+                            <form class="form-horizontal" role="form" method="post"
+                                  {% if order.status == 2 %} visible {% else %} hidden {% endif %}
+                                  action="{% url 'web:cancel_movement_balance' order.order_id %}">
+                                {% csrf_token %}
+                                <div class="btn-group">
+                                    <a href="{% url 'web:cancel_movement_balance' order.order_id %}">
+                                        <input id="client-btn-create-{{order.order_id}}"
+                                        class="btn btn-outline btn-primary btn-xs text-left"
+                                        type="button" value="details"/>
+                                    </a>
+                                    <button id="cancel_payment_{{ order.order_id }}"
+                                        class="btn btn-outline btn-success btn-xs {% if user_id == order.payee_user.id and user_type == order.payee_user.type %} '' {% else %} hidden {% endif %}"
+                                        type="submit">
+                                        <span>Cancel</span>
+                                    </button>
+                                </div>
+                            </form>
+                            {% if order.status != 2 and order.status != 0 %}
+                                <a href="{% url 'web:cancel_movement_balance' order.order_id %}">
+                                    <input id="client-btn-create-{{order.order_id}}"
+                                    class="btn btn-outline btn-primary btn-xs text-left"
+                                    type="button" value="details"/>
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

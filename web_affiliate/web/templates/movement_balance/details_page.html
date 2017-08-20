@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="panel mb25">
+    <div class="panel-heading border">
+        <h3>Balance Movement Execute page</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row no-margin">
+            <div class="col-lg-12">
+                <form class="form-horizontal" role="form" method=""
+                      action="">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Service Name</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="service_id" id="service" disabled>
+                                {% for service in services %}
+                                {% if service.service_id == order_details.product_service.id %}
+                                <option value="{{ service.service_id }}" selected>
+                                    {{ service.service_name }}
+                                </option>
+                                {% else %}
+                                <option value="{{ service.service_id }}">{{ service.service_name }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Amount</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="amount" value="{{ order_details.amount }}"
+                                   readonly \>
+                        </div>
+                    </div>
+                    <hr>
+                    <h4>Payer</h4>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Payer ID</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="payer_id" value="{{ order_details.payer_user.id }}" readonly \>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Source of Fund Type</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="sof_type" id="payer_sof_type" disabled>
+                                {% for sof in sofs %}
+                                {% if sof.sof_type_id == order_details.payer_user.sof_type_id %}
+                                <option value="{{ sof.sof_type_id }}" selected>{{ sof.sof_type }}</option>
+                                {% else %}
+                                <option value="{{ sof.sof_type_id }}">{{ sof.sof_type }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                            <div class="col-sm-8">
+                        </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Source of Fund ID</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="payer_sof_id"
+                                   value="{{ order_details.payer_user.sof_id }}" readonly \>
+                        </div>
+                    </div>
+                    <hr>
+                    <h4>Payee</h4>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">User type</label>
+                        <div class="col-xs-2">
+                            <select class="form-control" id="user_type_ddl" name="payer_user_type_id" disabled>
+                                <option value=1 {% if order_details.payee_user.type == 'customer' %} selected="selected" {% endif %}>Customer</option>
+                                <option value=2 {% if order_details.payee_user.type == 'agent' %} selected="selected" {% endif %}>Agent</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Payee ID</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="payee_id"
+                                   value="{{ order_details.payee_user.id }}" readonly \>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Source of Fund Type</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="sof_type" id="sof_type" disabled>
+                                {% for sof in sofs %}
+                                {% if sof.sof_type_id == order_details.payee_user.sof_type_id %}
+                                <option value="{{ sof.sof_type_id }}" selected>{{ sof.sof_type }}</option>
+                                {% else %}
+                                <option value="{{ sof.sof_type_id }}">{{ sof.sof_type }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Source of Fund ID</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="sof_id"
+                                   value="{{ order_details.payee_user.sof_id }}" readonly \>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="pull-right">
+                        <div class="pull-right">
+                        <a href="{% url 'web:history' %}">
+                        <input id="client-btn-create" class="btn btn-sm"
+                               type="button"
+                               value="back"/>
+                        </a>
+                    </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

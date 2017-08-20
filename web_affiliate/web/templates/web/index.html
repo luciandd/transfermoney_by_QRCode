@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>
+    Welcome
+</h1>
+    {% for message in messages %}
+    <div class="col-xs-12">
+        <div class='alert alert-success alert-dismissable' id="msg-add-service">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+            <strong>{{ message|capfirst }}</strong>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

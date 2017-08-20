@@ -1,0 +1,176 @@
+{% load permissions_filter %}
+{% block sidebar_panel %}
+    <div class="sidebar-panel offscreen-left">
+        <div class="brand">
+            <a href="javascript:;" class="toggle-sidebar hidden-xs hamburger-icon v3"
+               data-toggle="layout-small-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </a>
+        </div>
+        {% with request.resolver_match.url_name as url_name %}
+            <nav role="navigation">
+                <ul class="nav">
+                    {% if user.is_authenticated %}
+                        <li class="class={% if url_name == 'web-index' %} active{% endif %}">
+                            <a href="{% url 'web:web-index' %}">
+                                <i class="fa fa-home"></i>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li class="class={% if url_name == 'profile' %} active{% endif %}">
+                            <a href="{% url 'profile:detail' %}">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                <span>User Profile</span>
+                            </a>
+                        </li>
+                        <li class="class={% if 'wallet' in request.path %} open{% endif %}">
+                            <a href="javascript:;"><i class="fa fa-credit-card"></i><span>Wallet</span></a>
+                            <ul class="sub-menu">
+                                <li class="{% if url_name == 'create' %}active{% endif %}">
+                                    <a href="{% url 'wallet:create' %}"> <span>Create Wallet</span> </a>
+                                </li>
+                                <li class="{% if url_name == 'login' %}active{% endif %}">
+                                    <a href="{% url 'wallet:login' %}"> <span>Login Wallet</span> </a>
+                                </li>
+                                <li class="{% if url_name == 'topup' %}active{% endif %}">
+                                    <a href="{% url 'wallet:topup' %}"> <span>Top-up Money</span> </a>
+                                </li>
+                                <li class="{% if url_name == 'transfer_money' %}active{% endif %}">
+                                    <a href="{% url 'wallet:transfer_money' %}"> <span>Transfer Money</span> </a>
+                                </li>
+                                <li class="{% if url_name == 'create_permission' %}active{% endif %}">
+                                    <a href="{% url 'wallet:history' %}"> <span>Balance & Transaction</span> </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="class={% if 'commision' in url_name %} active{% endif %}">
+                            <a>
+                                <i class="fa fa-area-chart"></i>
+                                <span>Configuration</span>
+                            </a>
+                            <ul class="sub-menu">
+                                {% if request.user|has_permission_name:"is_admin" %}
+                                    <li class="{% if url_name == 'commision_fee' %}active{% endif %}">
+                                        <a href="{% url 'commision:commission_fee' %}"> 
+                                        <span>Admin Setup Fee</span>
+                                        </a>
+                                    </li>
+                                    <li class="{% if url_name == 'approve_shop' %}active{% endif %}">
+                                        <a href="{% url 'commision:approve_shop' %}"> 
+                                        <span>Admin Approve Shop</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if request.user|has_permission_name:"is_broker" or request.user|has_permission_name:"is_customer" or request.user|has_permission_name:"is_admin" %}
+                                    <li class="{% if url_name == 'become_shop' %}active{% endif %}">
+                                        <a href="{% url 'commision:become_shop' %}"> <span>Become Shop</span> </a>
+                                    </li>
+                                {% endif %}
+
+                                <li class="{% if url_name == 'become_broker' %}active{% endif %}">
+                                    <a href="{% url 'commision:become_broker' %}"> <span>Become Broker</span> </a>
+                                </li>
+
+                                {% if request.user|has_permission_name:"is_shop" %}
+                                    <li class="{% if url_name == 'approve_broker' %}active{% endif %}">
+                                        <a href="{% url 'commision:approve_broker' %}"> <span>Shop Approve Broker</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                {% if request.user|has_permission_name:"is_broker" %}
+                                    <li class="{% if url_name == 'invite_customer' %}active{% endif %}">
+                                        <a href="{% url 'commision:invite_customer' %}">
+                                            <span>Broker Invite Customer</span> </a>
+                                    </li>
+                                {% endif %}
+
+                                <li class="{% if url_name == 'approve_invite_broker' %}active{% endif %}">
+                                    <a href="{% url 'commision:approve_invite_broker' %}">
+                                        <span>Approve Broker Invitation</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        {% if request.user|has_permission_name:"is_broker" or request.user|has_permission_name:"is_customer" or request.user|has_permission_name:"is_shop" or request.user|has_permission_name:"is_admin" %}
+                            <li class="class={% if 'transaction' in url_name %} active{% endif %}">
+                                <a>
+                                    <i class="fa fa-history"></i>
+                                    <span>Transaction</span>
+                                </a>
+
+                                <ul class="sub-menu">
+                                    {% if request.user|has_permission_name:"is_shop" %}
+                                    <li class="{% if url_name == 'deposit' %}active{% endif %}">
+                                        <a href="{% url 'wallet:deposit' %}"> <span>Shop Deposit</span> </a>
+                                    </li>
+                                    {%endif%}
+                                    {% if request.user|has_permission_name:"is_customer" %}
+                                    <li class="{% if url_name == 'discount' %}active{% endif %}">
+                                        <a href="{% url 'transaction:discount' %}">
+                                            <span>Customer Request Discount</span> </a>
+                                    </li>
+                                    {%endif%}
+                                    {% if request.user|has_permission_name:"is_shop" %}
+                                    <li class="{% if url_name == 'confirm' %}active{% endif %}">
+                                        <a href="{% url 'transaction:confirm_transaction' %}"> <span>Shop Confirm</span>
+                                        </a>
+                                    </li>
+                                    {%endif%}
+                                    {% if request.user|has_permission_name:"is_customer" %}
+                                    <li class="{% if url_name == 'payment' %}active{% endif %}">
+                                        <a href="{% url 'transaction:payment' %}"> <span>Customer Pay a Bill</span> </a>
+                                    </li>
+                                    {%endif%}
+                                </ul>
+                            </li>
+                        {% endif %}
+                        {% if request.user|has_permission_name:"is_broker" or request.user|has_permission_name:"is_customer" or request.user|has_permission_name:"is_shop" or request.user|has_permission_name:"is_admin" %}
+                        <li class="class={% if 'history' in url_name %} active{% endif %}">
+                            <a>
+                                <i class="fa fa-credit-card"></i>
+                                <span>Transaction History</span>
+                            </a>
+                            {% if request.user|has_permission_name:"is_shop" %}
+                            <ul class="sub-menu">
+                                <li class="{% if url_name == 'shop_history' %}active{% endif %}">
+                                    <a href="{% url 'history:shop_history' %}"> <span>Shop Transaction History</span> </a>
+                                </li>
+                            </ul>
+                            {%endif%}
+                            {% if request.user|has_permission_name:"is_customer" %}
+                            <ul class="sub-menu">
+                                <li class="{% if url_name == 'customer_history' %}active{% endif %}">
+                                    <a href="{% url 'history:customer_history' %}"> <span>Customer Transaction History</span> </a>
+                                </li>
+                            </ul>
+                            {%endif%}
+                            {% if request.user|has_permission_name:"is_broker" %}
+                            <ul class="sub-menu">
+                                <li class="{% if url_name == 'broker_history' %}active{% endif %}">
+                                    <a href="{% url 'history:broker_history' %}"> <span>Broker Transaction History</span> </a>
+                                </li>
+                            </ul>
+                            {%endif%}
+                            <ul class="sub-menu">
+                                <li class="{% if url_name == 'admin_history' %}active{% endif %}">
+                                    <a href="{% url 'history:admin_history' %}"> <span>All Transaction History</span> </a>
+                                </li>
+                            </ul>
+                        </li>
+                        {%endif%}
+                        <li>
+                            <a href="{% url 'authentications:logout' %}">
+                                <i class="fa fa-power-off"></i>
+                                <span class="">Logout</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endwith %}
+    </div>
+{% endblock %}

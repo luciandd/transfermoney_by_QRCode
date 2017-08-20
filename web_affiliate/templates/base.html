@@ -1,0 +1,115 @@
+{% load static %}
+
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <title>Affiliate+</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- build:css({.tmp,app}) styles/app.min.css -->
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/dist/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/urban.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/urban.skins.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    {% block body_stylesheet %}
+    {% endblock %}
+
+</head>
+<style type="text/css">
+    img{
+
+    }
+</style>
+
+<body style="background-color: white;">
+{% block body_content %}
+<div class="app layout-fixed-header">
+    <!--sidebar-panel-->
+    {% include 'navigation.html' %}
+
+    <!-- content panel -->
+    <div class="main-panel">
+        <!-- top header -->
+        <header class="header navbar">
+
+            <div class="brand visible-xs">
+                <!-- toggle offscreen menu -->
+                <div class="toggle-offscreen">
+                    <a href="#" class="hamburger-icon visible-xs" data-toggle="offscreen" data-move="ltr">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </a>
+                </div>
+                <!-- /toggle offscreen menu -->
+                <!-- logo -->
+                <div class="brand-logo">
+                    <!--<img src="images/logo-dark.png" height="15" alt="">-->
+                </div>
+                <!-- /logo -->
+                <!-- toggle chat sidebar small screen-->
+                <div class="toggle-chat">
+                    <a href="javascript:;" class="hamburger-icon v2 visible-xs" data-toggle="layout-chat-open">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </a>
+                </div>
+                <!-- /toggle chat sidebar small screen-->
+            </div>
+
+            <ul class="nav navbar-nav hidden-xs">
+                <li>
+                    <!--<p class="navbar-text">-->
+                    <!--Native Form Elements-->
+                    <!--</p>-->
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right hidden-xs">
+                {% if user.is_authenticated %}
+                <li>
+                    <span id="nav-username" class="navbar-text">{{ user.username }} </span>
+                </li>
+                {% endif %}
+            </ul>
+
+        </header>
+        <div class="main-content" style="background-color: white;">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <footer class="content-footer">
+    </footer>
+</div>
+{% endblock %}
+<!-- build:js({.tmp,app}) scripts/app.min.js -->
+<script src="{% static 'scripts/extentions/modernizr.js' %}"></script>
+<script src="{% static 'vendor/jquery/dist/jquery.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/dist/js/bootstrap.js' %}"></script>
+<script src="{% static 'vendor/jquery.easing/jquery.easing.js' %}"></script>
+<script src="{% static 'vendor/fastclick/lib/fastclick.js' %}"></script>
+<script src="{% static 'vendor/onScreen/jquery.onscreen.js' %}"></script>
+<script src="{% static 'vendor/jquery-countTo/jquery.countTo.js' %}"></script>
+<script src="{% static 'vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
+<script src="{% static 'vendor/sweetalert/lib/sweet-alert.min.js' %}"></script>
+<script src="{% static 'scripts/ui/accordion.js' %}"></script>
+<script src="{% static 'scripts/ui/animate.js' %}"></script>
+<script src="{% static 'scripts/ui/link-transition.js' %}"></script>
+<script src="{% static 'scripts/ui/panel-controls.js' %}"></script>
+<script src="{% static 'scripts/ui/preloader.js' %}"></script>
+<script src="{% static 'scripts/ui/toggle.js' %}"></script>
+<script src="{% static 'scripts/urban-constants.js' %}"></script>
+<script src="{% static 'scripts/extentions/lib.js' %}"></script>
+<script src="{% static 'scripts/pages/alert.js' %}"></script>
+{% block body_js %}
+{% endblock %}
+
+<!-- endbuild -->
+</body>
+
+</html>

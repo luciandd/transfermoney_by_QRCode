@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="app layout-fixed-header bg-white usersession">
+        <div class="full-height">
+            <div class="center-wrapper">
+                <div class="center-content">
+                    <div class="row no-margin">
+                        <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                            <div action="/" class="form-layout">
+                                <div class="text-center mb15">
+                                    <!--<img src="images/logo-dark.png"/>-->
+                                </div>
+                                {% if form.errors %}
+                                    <p>Your username and password didn't match. Please try again.</p>
+                                {% endif %}
+
+                                {% for message in messages %}
+                                    <div class="col-xs-12">
+                                        <div class='alert
+{#                                            {% if "successfully" in message %}#}
+                                            alert-success
+{#                                            {% else %}#}
+{#                                            alert-danger#}
+{#                                            {% endif %}#}
+                                            alert-dismissable' id="msg-registration">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                                            <strong>{{ message|capfirst }}</strong>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                {% if next %}
+                                    {% if user.is_authenticated %}
+                                        <p>Your account doesn't have access to this page. To proceed,
+                                            please login with an account that has access.</p>
+                                    {% else %}
+                                        <p>Please login to see this page.</p>
+                                    {% endif %}
+                                {% endif %}
+                                <form method="post" action="{% url 'authentications:login' %}">
+                                    {% csrf_token %}
+                                    <div class="form-inputs">
+                                        <input id="id_username" maxlength="254" name="username" type="number"
+                                               class="form-control input-lg" placeholder="Mobile Number">
+                                        <input id="id_password" name="password" type="password"
+                                               class="form-control input-lg" placeholder="Password">
+                                    </div>
+                                    <button id="submitlogin" class="btn btn-success btn-block btn-lg mb15" type="submit"
+                                            value="login">
+                                        <span>Sign in</span>
+                                    </button>
+                                    <input type="hidden" name="next" value="{{ next }}"/>
+                                    <center><a href="{% url 'authentications:register' %}">Register</a></center>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

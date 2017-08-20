@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="panel mb25">
+        <div class="panel-heading border mb15">
+            <h3>Approve Broker</h3>
+        </div>
+        {% for message in messages %}
+            <div class="col-xs-12">
+                <div class='alert alert-success alert-dismissable' id="msg-add-service">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                    <strong>{{ message|capfirst }}</strong>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="panel-body">
+            <div class="table-responsive">
+                <form class="form-horizontal" role="form" method="post">
+                    {% csrf_token %}
+                    <div class="pull-right">
+                        <a href="{% url 'web:web-index' %}">
+                            <input id="btn_cancel" class="btn text-left mb15" type="button"
+                                   value="Cancel"/>
+                        </a>
+                        <input id="btn_save" class="btn btn-success text-left mb15" type="submit"
+                               value="Confirm"/>
+                    </div>
+                    <table class="table table-bordered table-striped mb0" id="tbl_shop_list">
+                        <thead>
+                        <tr>
+                            <th id="checkbox"></th>
+                            <th id="id">ID</th>
+                            <th id="broker_name">Broker Name</th>
+                            <th id="broker_mobile">Broker Mobile</th>
+                            <th id="shop_name">Shop Name</th>
+                            <th id="shop_mobile">Shop Mobile</th>
+                            <th id="shop_address">Shop Address</th>
+                            <th id="status">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody id="broker_table_body">
+                        {% for customer in customers %}
+                            <tr>
+                                <td class="col-sm-1"><input type="checkbox" name="checkbox"
+                                           id="checkbox" value="{{ customer.id }}">
+                                </td>
+                                <td class="col-sm-3">{{ customer.id|default_if_none:'' }}</td>
+                                <td class="col-sm-3">{{ customer.broker_name|default_if_none:'' }}</td>
+                                <td class="col-sm-3">{{ customer.broker_mobile|default_if_none:'' }}</td>
+                                <td class="col-sm-2">{{ customer.shop_name|default_if_none:'' }}</td>
+                                <td class="col-sm-2">{{ customer.shop_mobile|default_if_none:'' }}</td>
+                                <td class="col-sm-2">{{ customer.shop_address|default_if_none:'' }}</td>
+                                <td class="col-sm-2">{{ customer.status|default_if_none:'' }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="loader" style="display:none" id="loader-indicator"></div>
+        <div class="col-xs-12" id="search-result-notification" style="display:none">
+            <div class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                Something wrong happened.
+            </div>
+        </div>
+    </div>
+{% endblock %}

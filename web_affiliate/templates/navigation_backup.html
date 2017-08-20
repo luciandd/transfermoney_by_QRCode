@@ -1,0 +1,68 @@
+{% block sidebar_panel %}
+<div class="sidebar-panel offscreen-left">
+    <div class="brand">
+        <a href="javascript:;" class="toggle-sidebar hidden-xs hamburger-icon v3"
+           data-toggle="layout-small-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </a>
+    </div>
+    {% with request.resolver_match.url_name as url_name %}
+    <nav role="navigation">
+        <ul class="nav">
+            <li class="class={% if url_name == 'web-index' %} active{% endif %}">
+                <a href="{% url 'web:web-index' %}">
+                    <i class="fa fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="class={% if url_name == 'profile' %} active{% endif %}">
+                <a href="{% url 'profile:detail' %}">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <span>User Profile</span>
+                </a>
+            </li>
+            <li class="class={% if url_name == 'history' %} active{% endif %}">
+                <a href="{% url 'web:history' %}">
+                    <i class="fa fa-tag"></i>
+                    <span>History</span>
+                </a>
+            </li>
+            <li class="class={% if url_name == 'execute_movement_balance' %} active{% endif %}">
+                <a href="{% url 'web:execute_movement_balance' %}">
+                    <i class="fa fa-area-chart"></i>
+                    <span>Balance Movement</span>
+                </a>
+            </li>
+            <li class="class={% if 'wallet' in url_name %} active{% endif %}">
+                <a>
+                    <i class="fa fa-credit-card"></i>
+                    <span>Wallet</span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="{% if url_name == 'link_wallet' %}active{% endif %}">
+                        <a href="{% url 'wallet:show' %}"> <span>Create/Link wallet</span> </a>
+                    </li>
+                    <li class="{% if url_name == 'create_permission' %}active{% endif %}">
+                        <a href="#"> <span>Deposit</span> </a>
+                    </li>
+                    <li class="{% if url_name == 'create_permission' %}active{% endif %}">
+                        <a href="#"> <span>Balance & Transection</span> </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                {% if user.is_authenticated %}
+                <a href="{% url 'authentications:logout' %}">
+                    <i class="fa fa-power-off"></i>
+                    <span class="">Logout</span>
+                </a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+    {% endwith %}
+</div>
+{% endblock %}

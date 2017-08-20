@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="panel mb25">
+    <div class="panel-heading border mb15">
+        <h3>Confirm Transactions</h3>
+    </div>
+
+    <div class="panel-body">
+        <div class="table-responsive">
+            <form class="form-horizontal" role="form" method="post">
+                {% csrf_token %}
+                <table class="table table-bordered table-striped mb0" id="tbl_item_list">
+                    <thead>
+                    <tr>
+                        <th id="id">Id</th>
+                        <th id="amount">Bill Amount</th>
+                        <th id="customer">Customer</th>
+                        <th id="status">Status</th>
+                        <th id="action">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody id="item_table_body">
+                    {% for item in confirm|dictsort:"id" %}
+                        <tr>
+                            <td class="col-sm-1">{{ item.id }}</td>
+                            <td class="col-sm-3">{{ item.bill_amount|default_if_none:'' }}</td>
+                            <td class="col-sm-5">{{ item.customer|default_if_none:'' }}</td>
+                            <td class="col-sm-2">{{ item.status|default_if_none:'' }}</td>
+                            <td class="col-sm-2">
+                                <a type="button" class="btn btn-outline btn-xs btn-primary" 
+                                    id="btn_delete" role="button" 
+                                    href="{% url 'transaction:genqr_code' item.id%} " >
+                                    <span class="small">Accept</span>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="loader" style="display:none" id="loader-indicator"></div>
+    <div class="col-xs-12" id="search-result-notification" style="display:none">
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+            Something wrong happened.
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="panel mb25">
+    <div class="panel-heading border">
+        <h3>Create Wallet</h3>
+    </div>
+    {% for message in messages %}
+    <div class="col-xs-12">
+        <div class='alert alert-success alert-dismissable' id="msg-add-service">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+            <strong>{{ message|capfirst }}</strong>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="panel-body">
+        <div class="row no-margin">
+            <div class="col-lg-12">
+                <form id="submit-form" class="form-horizontal" role="form" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Thai ID</label>
+                        <div class="col-sm-8">
+                            <input type="number" required value="3231744035655" class="form-control input-rounded" name="thai_id"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">First name</label>
+                        <div class="col-sm-8">
+                            <input type="text" required value="Ascend" class="form-control input-rounded" name="first_name"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Last name</label>
+                        <div class="col-sm-8">
+                            <input type="text" required value="Hackathon" class="form-control input-rounded" name="last_name"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Postal Code</label>
+                        <div class="col-sm-8">
+                            <input type="text" required value="10400" class="form-control input-rounded" name="postal_code"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Mobile Number *</label>
+                        <div class="col-sm-8">
+                            <input type="number" required class="form-control input-rounded" name="mobile_number"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Password *</label>
+                        <div class="col-sm-8">
+                            <input type="password" required class="form-control input-rounded" name="password"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Device OS</label>
+                        <div class="col-sm-8">
+                            <input type="text" required value="android" class="form-control input-rounded" name="device_os"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Email *</label>
+                        <div class="col-sm-8">
+                            <input type="email" required class="form-control input-rounded" name="email"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Addresss</label>
+                        <div class="col-sm-8">
+                            <input type="text" required value="Hanoi Vietnam" class="form-control input-rounded" name="address"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Occupation</label>
+                        <div class="col-sm-8">
+                            <input type="text" required value="developer" class="form-control input-rounded" name="occupation"/>
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <a href="{% url 'web:web-index' %}">
+                            <input id="btn_cancel" class="btn" type="button" value="Cancel"/>
+                        </a>
+                        <a>
+                            <input id="btn_yes" class="btn btn-success" type="submit" value="Submit">
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
